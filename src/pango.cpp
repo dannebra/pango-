@@ -43,9 +43,8 @@ int main(int argc, char *argv[])
     SDL_FillRect(screenSurface, NULL,
                 SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
     
-    SDL_Surface * titleScreen = pango::LoadSurface("../assets/gui/pango_title_screen.bmp", screenSurface->format);
+    SDL_Surface *titleScreen = pango::LoadSurface("../assets/gui/pango_title_screen.bmp", screenSurface->format);
     if (titleScreen == NULL) {
-        printf("Failed to load stretching image!\n");
         pango::QuitWithError(window);
     }
     // ------------ Finished setting up SDL ------------
