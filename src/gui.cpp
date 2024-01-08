@@ -10,7 +10,7 @@
   * @param path bitmap image path
   * @param pixelFormat which pixel format to convert the surface to (@see SDL_PixelFormatEnum)
 */
-SDL_Surface *pango::LoadSurface(const std::string path, const SDL_PixelFormat *pixelFormat) {
+SDL_Surface *pango::LoadSurface(const std::string &path, const SDL_PixelFormat *pixelFormat) {
   SDL_Surface *optimizedSurface = NULL;
 
   SDL_Surface *loadedSurface = SDL_LoadBMP(path.c_str());

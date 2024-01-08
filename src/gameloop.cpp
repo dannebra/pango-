@@ -4,7 +4,7 @@
 /**
  * Main Pango game loop
 */
-bool pango::PangoLoop(keyboard_inputs &inputs)
+bool pango::PangoLoop(const keyboard_inputs &inputs)
 {
     // TODO: Implement this function
     return true;

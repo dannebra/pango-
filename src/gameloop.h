@@ -6,7 +6,7 @@
 
 namespace pango
 {
-    bool PangoLoop(keyboard_inputs &inputs);
+    bool PangoLoop(const keyboard_inputs &inputs);
 }
 
 #endif
