@@ -1,4 +1,4 @@
-.vscore
+.vscode
 
-pango
-pango_debug
+src/pango
+src/pango_debug
