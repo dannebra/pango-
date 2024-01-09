@@ -19,23 +19,24 @@ int main(int argc, char *argv[])
     // ------------ Setup SDL ------------
     SDL_Window *window = nullptr;
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-            printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-            pango::QuitWithError(window);
+        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+        QuitWithError(window);
     } else {
-        window = SDL_CreateWindow("Pango++", SDL_WINDOWPOS_UNDEFINED,
-                                    SDL_WINDOWPOS_UNDEFINED, pango::screenWidth,
-                                    pango::screenHeight, SDL_WINDOW_SHOWN);
+        window = SDL_CreateWindow("Pango++", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                  pango_gui::screenWidth, pango_gui::screenHeight, SDL_WINDOW_SHOWN);
+        
         if (window == NULL) {
-                printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-                pango::QuitWithError(window);
+            printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+            QuitWithError(window);
         } else {
-                SDL_Surface *icon = IMG_Load("../assets/gui/pango.ico");
-                if (icon == NULL) {
-                  printf("Failed to load icon: %s\n", SDL_GetError());
-                  pango::QuitWithError(window); 
-                }
+            SDL_Surface *icon = IMG_Load("../assets/gui/pango.ico");
+            
+            if (icon == NULL) {
+                printf("Failed to load icon: %s\n", SDL_GetError());
+                QuitWithError(window); 
+            }
 
-                SDL_SetWindowIcon(window, icon);
+            SDL_SetWindowIcon(window, icon);
         }
     }
 
@@ -43,28 +44,28 @@ int main(int argc, char *argv[])
     SDL_FillRect(screenSurface, NULL,
                 SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
     
-    SDL_Surface *titleScreen = pango::LoadSurface("../assets/gui/pango_title_screen.bmp", screenSurface->format);
+    SDL_Surface *titleScreen = LoadSurface("../assets/gui/pango_title_screen.bmp", screenSurface->format);
     if (titleScreen == NULL) {
-        pango::QuitWithError(window);
+        QuitWithError(window);
     }
     // ------------ Finished setting up SDL ------------
 
-    pango::DrawTitleScreen(titleScreen, screenSurface, window);
+    DrawTitleScreen(titleScreen, screenSurface, window);
     
     SDL_Event event;
     const u8 *keyboard = SDL_GetKeyboardState(NULL);
-    pango::keyboard_inputs inputs{0, 0, 0, 0, 0, 0};
+    keyboard_inputs inputs{0, 0, 0, 0, 0, 0};
     do 
     {
         SDL_PumpEvents();
 
         // store player input
         inputs.keyW     = keyboard[SDL_SCANCODE_W];
-        inputs.keyS     = keyboard[SDL_SCANCODE_S];
         inputs.keyA     = keyboard[SDL_SCANCODE_A];
+        inputs.keyS     = keyboard[SDL_SCANCODE_S];
         inputs.keyD     = keyboard[SDL_SCANCODE_D];
-        inputs.keySpace = keyboard[SDL_SCANCODE_SPACE];
         inputs.keyP     = keyboard[SDL_SCANCODE_P];
+        inputs.keySpace = keyboard[SDL_SCANCODE_SPACE];
 
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
@@ -72,14 +73,14 @@ int main(int argc, char *argv[])
                 {
                     SDL_FreeSurface(titleScreen);
                     SDL_FreeSurface(screenSurface);
-                    pango::QuitWithSuccess(window);
+                    QuitWithSuccess(window);
                 }
                 case SDL_KEYDOWN:
                 {
                     if (event.key.keysym.sym == SDLK_ESCAPE) {
                         SDL_FreeSurface(titleScreen);
                         SDL_FreeSurface(screenSurface);
-                        pango::QuitWithSuccess(window);
+                        QuitWithSuccess(window);
                     }
                     break;
                 }
@@ -87,23 +88,26 @@ int main(int argc, char *argv[])
         }
 
         SDL_UpdateWindowSurface(window);
-    } while (pango::PangoLoop(inputs)); // TODO: pass input and renderer to gameloop
+    } while (PangoLoop(inputs)); // TODO: pass input and renderer to gameloop
+
+    return 0;
 }
 
-
-// Shut down SDL and reclaim resources. 
-void pango::CleanupSDL(SDL_Window *window)
+    // Shut down SDL and reclaim resources. 
+void CleanupSDL(SDL_Window *window)
 {
-  SDL_DestroyWindow(window);
-  SDL_Quit();
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
 
-void pango::QuitWithError(SDL_Window *window) {
+void QuitWithError(SDL_Window *window)
+{
     CleanupSDL(window);
     std::exit(EXIT_FAILURE);
 }
 
-void pango::QuitWithSuccess(SDL_Window *window) {
+void QuitWithSuccess(SDL_Window *window)
+{
     CleanupSDL(window);
     std::exit(EXIT_SUCCESS);
 }

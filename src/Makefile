@@ -4,9 +4,9 @@ OBJS = pango.cpp gui.cpp gameloop.cpp
 # Compiler
 CC = g++
 
-COMPILER_FLAGS = -Wall -std=c++17 -O2
+COMPILER_FLAGS = -std=c++17 -O2
 
-COMPILER_FLAGS_DEBUG = -Werror -Wall -std=c++17 -g
+COMPILER_FLAGS_DEBUG = -Werror -Wshadow -Wall -std=c++17 -g
 
 LINKER_FLAGS = -lSDL2 -lSDL2_image
 

@@ -3,10 +3,8 @@
 
 #include <SDL2/SDL.h>
 
-namespace pango
-{
-    void CleanupSDL(SDL_Window *window);
-    void QuitWithError(SDL_Window *window);
-    void QuitWithSuccess(SDL_Window *window);
-}
+void CleanupSDL(SDL_Window *window);
+void QuitWithError(SDL_Window *window);
+void QuitWithSuccess(SDL_Window *window);
+
 #endif

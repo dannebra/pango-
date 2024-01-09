@@ -5,16 +5,13 @@
 
 using u8 = std::uint8_t;
 
-namespace pango
-{
-    struct keyboard_inputs {
-        u8 keyW;
-        u8 keyA;
-        u8 keyS;
-        u8 keyD;
-        u8 keySpace;
-        u8 keyP;
-    };
-}
+struct keyboard_inputs {
+    u8 keyW;
+    u8 keyA;
+    u8 keyS;
+    u8 keyD;
+    u8 keySpace;
+    u8 keyP;
+};
 
 #endif

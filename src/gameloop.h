@@ -4,9 +4,6 @@
 #include "input.h"
 #include <SDL2/SDL.h>
 
-namespace pango
-{
-    bool PangoLoop(const keyboard_inputs &inputs);
-}
+bool PangoLoop(const keyboard_inputs &inputs);
 
 #endif
