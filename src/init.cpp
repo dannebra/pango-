@@ -2,6 +2,7 @@
 #include "gui.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 #include <string>
 
 /**
@@ -10,7 +11,7 @@
 SDL_Window *CreateWindow()
 {
     SDL_Window *window = nullptr;
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         std::exit(EXIT_FAILURE);
     } else {
@@ -33,6 +34,19 @@ SDL_Window *CreateWindow()
     }
 
     return window;
+}
+
+/**
+ * Setup the audio handling.
+*/
+void SetupAudio()
+{
+    constexpr int frequency = 44100;
+    constexpr int channels = 2; // stereo
+    constexpr int sampleSize = 2048; // 2 KiB
+    if (Mix_OpenAudio(frequency, MIX_DEFAULT_FORMAT, channels, sampleSize) < 0 ) { // Should this be handled? Do we care if we have no sound? 
+        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+    }
 }
 
 /**

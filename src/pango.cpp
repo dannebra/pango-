@@ -1,7 +1,22 @@
+/* ========================================================================
+
+   Pango++ - a clone of the MS-DOS game Pango written in C++.
+   
+   @author Daniel Degirmen
+   
+   Title music: Cruising Down 8bit Lane - Monument_Music
+   
+   This software is provided 'as-is', without any express or implied
+   warranty. In no event will the authors be held liable for any damages
+   arising from the use of this software.
+
+   ======================================================================== */
+
 #include "gameloop.h"
 #include "gui.h"
 #include "init.h"
 #include "input.h"
+#include "audio_manager.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_surface.h>
@@ -17,6 +32,8 @@ int main(int argc, char *argv[])
 { 
     // ------------ Setup SDL ------------
     SDL_Window *window = CreateWindow();
+    SetupAudio();
+
     SDL_Surface *screenSurface = SDL_GetWindowSurface(window);
     SDL_FillRect(screenSurface, NULL,
                 SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
@@ -28,10 +45,14 @@ int main(int argc, char *argv[])
     // ------------ Finished setting up SDL ------------
 
     DrawTitleScreen(titleScreen, screenSurface, window);
+    AudioManager audioManager{};
+    audioManager.LoadMusic("../assets/audio/title_theme.mp3");
+    audioManager.PlayMusic();
     
     SDL_Event event;
     const u8 *keyboard = SDL_GetKeyboardState(NULL);
     keyboard_inputs inputs{0, 0, 0, 0, 0, 0};
+    
     do 
     {
         SDL_PumpEvents();
@@ -59,6 +80,8 @@ int main(int argc, char *argv[])
                         SDL_FreeSurface(titleScreen);
                         SDL_FreeSurface(screenSurface);
                         QuitWithSuccess(window);
+                    } else if (pressedKey == SDLK_m) {
+                        audioManager.ToggleMusic();
                     }
 
                     break;
@@ -67,7 +90,7 @@ int main(int argc, char *argv[])
         }
 
         SDL_UpdateWindowSurface(window);
-    } while (PangoLoop(inputs)); // TODO: pass input and renderer to gameloop
+    } while (PangoLoop(inputs)); // TODO: pass input and renderer to game loop
 
     return 0;
 }

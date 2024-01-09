@@ -5,6 +5,7 @@
 #include <string>
 
 SDL_Window *CreateWindow();
+void SetupAudio();
 SDL_Surface *LoadSurface(const std::string &path, const SDL_PixelFormat *screenSurface);
 void CleanupSDL(SDL_Window *window);
 void QuitWithError(SDL_Window *window);

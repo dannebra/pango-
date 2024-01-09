@@ -1,5 +1,5 @@
 # Files to compile
-OBJS = pango.cpp gui.cpp gameloop.cpp init.cpp
+OBJS = pango.cpp gui.cpp gameloop.cpp init.cpp audio_manager.cpp
 
 # Compiler
 CC = g++
@@ -8,7 +8,7 @@ COMPILER_FLAGS = -std=c++17 -O2
 
 COMPILER_FLAGS_DEBUG = -Werror -Wshadow -Wall -std=c++17 -g
 
-LINKER_FLAGS = -lSDL2 -lSDL2_image
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer
 
 # Name of the exectuable
 EXECUTABLE = pango
