@@ -19,7 +19,8 @@ void AudioManager::LoadMusic(const std::string &path)
 }
 
 /**
- * Play the most recently loaded music
+ * Play the most recently loaded music.
+ * If no music has been loaded then this function does nothing.
 */
 void AudioManager::PlayMusic()
 {
