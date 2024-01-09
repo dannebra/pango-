@@ -1,5 +1,5 @@
 # Files to compile
-OBJS = pango.cpp gui.cpp gameloop.cpp
+OBJS = pango.cpp gui.cpp gameloop.cpp init.cpp
 
 # Compiler
 CC = g++

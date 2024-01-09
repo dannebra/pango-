@@ -1,13 +1,12 @@
-#include "pango.h"
 #include "gameloop.h"
 #include "gui.h"
+#include "init.h"
 #include "input.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
-#include <cmath>
 #include <stdio.h>
 #include <string>
 
@@ -17,29 +16,7 @@
 int main(int argc, char *argv[])
 { 
     // ------------ Setup SDL ------------
-    SDL_Window *window = nullptr;
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-        QuitWithError(window);
-    } else {
-        window = SDL_CreateWindow("Pango++", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                  pango_gui::screenWidth, pango_gui::screenHeight, SDL_WINDOW_SHOWN);
-        
-        if (window == NULL) {
-            printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-            QuitWithError(window);
-        } else {
-            SDL_Surface *icon = IMG_Load("../assets/gui/pango.ico");
-            
-            if (icon == NULL) {
-                printf("Failed to load icon: %s\n", SDL_GetError());
-                QuitWithError(window); 
-            }
-
-            SDL_SetWindowIcon(window, icon);
-        }
-    }
-
+    SDL_Window *window = CreateWindow();
     SDL_Surface *screenSurface = SDL_GetWindowSurface(window);
     SDL_FillRect(screenSurface, NULL,
                 SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
@@ -77,11 +54,13 @@ int main(int argc, char *argv[])
                 }
                 case SDL_KEYDOWN:
                 {
-                    if (event.key.keysym.sym == SDLK_ESCAPE) {
+                    SDL_Keycode pressedKey = event.key.keysym.sym;
+                    if (pressedKey == SDLK_ESCAPE) {
                         SDL_FreeSurface(titleScreen);
                         SDL_FreeSurface(screenSurface);
                         QuitWithSuccess(window);
                     }
+
                     break;
                 }
             }
@@ -91,24 +70,5 @@ int main(int argc, char *argv[])
     } while (PangoLoop(inputs)); // TODO: pass input and renderer to gameloop
 
     return 0;
-}
-
-    // Shut down SDL and reclaim resources. 
-void CleanupSDL(SDL_Window *window)
-{
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-}
-
-void QuitWithError(SDL_Window *window)
-{
-    CleanupSDL(window);
-    std::exit(EXIT_FAILURE);
-}
-
-void QuitWithSuccess(SDL_Window *window)
-{
-    CleanupSDL(window);
-    std::exit(EXIT_SUCCESS);
 }
 
