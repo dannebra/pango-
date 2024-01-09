@@ -16,21 +16,26 @@ EXECUTABLE = pango
 # Debug build name
 EXECUTABLE_DEBUG = pango_debug
 
-all : $(OBJS)	
+pango : $(OBJS)	
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(EXECUTABLE)
 
-debug : $(OBJS)	
+pango_debug : $(OBJS)	
 	$(CC) $(OBJS) $(COMPILER_FLAGS_DEBUG) $(LINKER_FLAGS) -o $(EXECUTABLE_DEBUG)
 
-start: all run
+.PHONY: start
+start: pango run
 
-start_debug: debug run_debug
+.PHONY: start_debug
+start_debug: pango_debug run_debug
 
+.PHONY: run
 run:
 	./$(EXECUTABLE)
 
+.PHONY: run_debug
 run_debug:
 	./$(EXECUTABLE_DEBUG)
 
+.PHONY: clean
 clean:
 	rm -f *.o pango pango_debug

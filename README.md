@@ -15,7 +15,7 @@ Make sure that SDL2 is installed on your computer. Follow the instructions [here
 2. Move (cd) into the source directory where you cloned the project `cd pango_plus_plus/src/`
 3. To build and run the program type `make start`.
 4. To build and run a debug build type `make start_debug`
-5. To just build the program, type `make` or `make debug` for the debug build.
+5. To just build the program, type `make` or `make pango_debug` for the debug build.
 6. To clean the project type `make clean`.
 
 ## Controls
