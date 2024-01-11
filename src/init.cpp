@@ -5,9 +5,6 @@
 #include <SDL2/SDL_mixer.h>
 #include <string>
 
-/**
- * Create an SDL window to draw to
-*/
 SDL_Window *CreateWindow()
 {
     SDL_Window *window = nullptr;
@@ -36,9 +33,6 @@ SDL_Window *CreateWindow()
     return window;
 }
 
-/**
- * Setup the audio handling.
-*/
 void SetupAudio()
 {
     constexpr int frequency = 44100;

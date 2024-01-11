@@ -51,13 +51,12 @@ int main(int argc, char *argv[])
     
     SDL_Event event;
     const u8 *keyboard = SDL_GetKeyboardState(NULL);
-    keyboard_inputs inputs{0, 0, 0, 0, 0, 0};
+    keyboard_inputs inputs{};
     
     do 
     {
         SDL_PumpEvents();
-
-        // store player input
+        
         inputs.keyW     = keyboard[SDL_SCANCODE_W];
         inputs.keyA     = keyboard[SDL_SCANCODE_A];
         inputs.keyS     = keyboard[SDL_SCANCODE_S];
@@ -94,4 +93,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-

@@ -29,9 +29,7 @@ void AudioManager::PlayMusic()
     }
 }
 
-/**
- * Pause/unpause current music
-*/
+
 void AudioManager::ToggleMusic()
 {
     if (Mix_PausedMusic() == 1) {

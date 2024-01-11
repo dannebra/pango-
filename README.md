@@ -4,7 +4,7 @@ Pango++ is a clone of the MS-DOS game Pango written in C++. This is a work in pr
 
 ## Prerequisites
 * SDL2
-* GCC (g++) if using the Makefile. If you are using clang then replace CC in the Makefile with clang++ instead.
+* GCC (g++) if using the Makefile.
 * (GNU Make)
 
   
