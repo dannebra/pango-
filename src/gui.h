@@ -11,7 +11,4 @@ namespace pango_gui
     inline constexpr int screenHeight = 480;
 }
 
-void DrawTitleScreen(SDL_Surface *titleScreen, SDL_Surface *screenSurface, SDL_Window *window);
-
-
 #endif

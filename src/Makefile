@@ -8,7 +8,7 @@ COMPILER_FLAGS = -std=c++17 -O2
 
 COMPILER_FLAGS_DEBUG = -Werror -Wshadow -Wall -std=c++17 -g
 
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 # Name of the exectuable
 EXECUTABLE = pango

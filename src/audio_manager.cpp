@@ -22,7 +22,7 @@ void AudioManager::LoadMusic(const std::string &path)
  * Play the most recently loaded music.
  * If no music has been loaded then this function does nothing.
 */
-void AudioManager::PlayMusic()
+void AudioManager::PlayMusic() const
 {
     if (Mix_PlayingMusic() == 0) {
         Mix_PlayMusic(m_currentMusic, -1);
@@ -30,7 +30,7 @@ void AudioManager::PlayMusic()
 }
 
 
-void AudioManager::ToggleMusic()
+void AudioManager::ToggleMusic() const
 {
     if (Mix_PausedMusic() == 1) {
         Mix_ResumeMusic();

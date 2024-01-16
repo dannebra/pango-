@@ -32,23 +32,20 @@ int main(int argc, char *argv[])
 { 
     // ------------ Setup SDL ------------
     SDL_Window *window = CreateWindow();
+    SDL_Renderer *renderer = CreateRenderer(window);
+    TTF_Font *font = SetupFont("../assets/font/ModernDOS8x14.ttf");
     SetupAudio();
 
-    SDL_Surface *screenSurface = SDL_GetWindowSurface(window);
-    SDL_FillRect(screenSurface, NULL,
-                SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
-    
-    SDL_Surface *titleScreen = LoadSurface("../assets/gui/pango_title_screen.bmp", screenSurface->format);
-    if (titleScreen == NULL) {
-        QuitWithError(window);
-    }
     // ------------ Finished setting up SDL ------------
 
-    DrawTitleScreen(titleScreen, screenSurface, window);
+    SDL_Texture *background = IMG_LoadTexture(renderer, "../assets/gui/pango_title_screen.bmp");
     AudioManager audioManager{};
     audioManager.LoadMusic("../assets/audio/title_theme.mp3");
     audioManager.PlayMusic();
-    
+
+    SDL_Color textColor{255, 255 , 255};
+    [[maybe_unused]] SDL_Surface *textSurface = TTF_RenderText_Solid(font, "Test", textColor); // TODO: Draw text to screen
+
     SDL_Event event;
     const u8 *keyboard = SDL_GetKeyboardState(NULL);
     keyboard_inputs inputs{};
@@ -56,7 +53,6 @@ int main(int argc, char *argv[])
     do 
     {
         SDL_PumpEvents();
-        
         inputs.keyW     = keyboard[SDL_SCANCODE_W];
         inputs.keyA     = keyboard[SDL_SCANCODE_A];
         inputs.keyS     = keyboard[SDL_SCANCODE_S];
@@ -68,16 +64,14 @@ int main(int argc, char *argv[])
             switch (event.type) {
                 case SDL_QUIT:
                 {
-                    SDL_FreeSurface(titleScreen);
-                    SDL_FreeSurface(screenSurface);
+                    SDL_DestroyTexture(background);
                     QuitWithSuccess(window);
                 }
                 case SDL_KEYDOWN:
                 {
                     SDL_Keycode pressedKey = event.key.keysym.sym;
                     if (pressedKey == SDLK_ESCAPE) {
-                        SDL_FreeSurface(titleScreen);
-                        SDL_FreeSurface(screenSurface);
+                        SDL_DestroyTexture(background);
                         QuitWithSuccess(window);
                     } else if (pressedKey == SDLK_m) {
                         audioManager.ToggleMusic();
@@ -88,7 +82,9 @@ int main(int argc, char *argv[])
             }
         }
 
-        SDL_UpdateWindowSurface(window);
+        //Update screen
+        SDL_RenderCopy(renderer, background, NULL, NULL);
+        SDL_RenderPresent(renderer);
     } while (PangoLoop(inputs)); // TODO: pass input and renderer to game loop
 
     return 0;

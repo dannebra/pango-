@@ -13,10 +13,14 @@ class AudioManager
     public:
         AudioManager() = default;
         ~AudioManager();
+        AudioManager(const AudioManager &other) = delete;
+        AudioManager(AudioManager &&other) = default;
+        AudioManager& operator=(const AudioManager& other) = delete;
+        AudioManager& operator=(AudioManager&& other) = delete;
 
         void LoadMusic(const std::string &path);
-        void PlayMusic();
-        void ToggleMusic();
+        void PlayMusic() const;
+        void ToggleMusic() const;
 };
 
 #endif

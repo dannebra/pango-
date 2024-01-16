@@ -1,6 +1,7 @@
 #include "init.h"
 #include "gui.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <string>
@@ -14,7 +15,6 @@ SDL_Window *CreateWindow()
     } else {
         window = SDL_CreateWindow("Pango++", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                   pango_gui::screenWidth, pango_gui::screenHeight, SDL_WINDOW_SHOWN);
-        
         if (window == NULL) {
             printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
             QuitWithError(window);
@@ -33,6 +33,18 @@ SDL_Window *CreateWindow()
     return window;
 }
 
+SDL_Renderer *CreateRenderer(SDL_Window *window)
+{
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (renderer == NULL) {
+        printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+        QuitWithError(window);
+    }
+
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF); // (rgba) white text with full opacity
+    return renderer;
+}
+
 void SetupAudio()
 {
     constexpr int frequency = 44100;
@@ -43,31 +55,17 @@ void SetupAudio()
     }
 }
 
-/**
- * Load bitmap images as an SDL Surface
- * 
- * @param path bitmap image path
- * @param pixelFormat which pixel format to convert the surface to (@see SDL_PixelFormatEnum)
-*/
-SDL_Surface *LoadSurface(const std::string &path, const SDL_PixelFormat *pixelFormat)
+TTF_Font *SetupFont(const std::string &fontPath)
 {
-    SDL_Surface *optimizedSurface = NULL;
-
-    SDL_Surface *loadedSurface = SDL_LoadBMP(path.c_str());
-    if (loadedSurface == NULL) {
-      printf("Unable to load image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-    } else {
-      optimizedSurface = SDL_ConvertSurface(loadedSurface, pixelFormat, 0);
-      
-      if (optimizedSurface == NULL) {
-        printf("Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-      }
-
-      SDL_FreeSurface(loadedSurface); // reclaim resources from unoptimized surface
+    if (TTF_Init() == -1) {
+        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+        return nullptr;
     }
 
-    return optimizedSurface;
+    constexpr int fontSize = 28;
+    return TTF_OpenFont(fontPath.c_str(), fontSize);
 }
+
 
 void CleanupSDL(SDL_Window *window)
 {
