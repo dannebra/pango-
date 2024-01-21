@@ -12,11 +12,12 @@
 
    ======================================================================== */
 
-#include "gameloop.h"
-#include "gui.h"
-#include "init.h"
-#include "input.h"
+#include "asset_manager.h"
 #include "audio_manager.h"
+#include "gameloop.h"
+#include "graphics.h"
+#include "input.h"
+#include "texture.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_surface.h>
@@ -30,21 +31,16 @@
 */
 int main(int argc, char *argv[])
 { 
-    // ------------ Setup SDL ------------
-    SDL_Window *window = CreateWindow();
-    SDL_Renderer *renderer = CreateRenderer(window);
-    TTF_Font *font = SetupFont("../assets/font/ModernDOS8x14.ttf");
-    SetupAudio();
+    // ------------ Setup subsystems ------------
+    Graphics *graphics = Graphics::Instance();
+    graphics->Init();
 
-    // ------------ Finished setting up SDL ------------
-
-    SDL_Texture *background = IMG_LoadTexture(renderer, "../assets/gui/pango_title_screen.bmp");
     AudioManager audioManager{};
+    // ------------ Finished setting up subsystems ------------
+
+
     audioManager.LoadMusic("../assets/audio/title_theme.mp3");
     audioManager.PlayMusic();
-
-    SDL_Color textColor{255, 255 , 255};
-    [[maybe_unused]] SDL_Surface *textSurface = TTF_RenderText_Solid(font, "Test", textColor); // TODO: Draw text to screen
 
     SDL_Event event;
     const u8 *keyboard = SDL_GetKeyboardState(NULL);
@@ -64,15 +60,13 @@ int main(int argc, char *argv[])
             switch (event.type) {
                 case SDL_QUIT:
                 {
-                    SDL_DestroyTexture(background);
-                    QuitWithSuccess(window);
+                    std::exit(EXIT_SUCCESS); // TODO: Cleanup before exiting
                 }
                 case SDL_KEYDOWN:
                 {
                     SDL_Keycode pressedKey = event.key.keysym.sym;
                     if (pressedKey == SDLK_ESCAPE) {
-                        SDL_DestroyTexture(background);
-                        QuitWithSuccess(window);
+                        std::exit(EXIT_SUCCESS); // TODO: Cleanup before exiting
                     } else if (pressedKey == SDLK_m) {
                         audioManager.ToggleMusic();
                     }
@@ -82,9 +76,8 @@ int main(int argc, char *argv[])
             }
         }
 
-        //Update screen
-        SDL_RenderCopy(renderer, background, NULL, NULL);
-        SDL_RenderPresent(renderer);
+        graphics->ClearBackBuffer();
+        graphics->Render();
     } while (PangoLoop(inputs)); // TODO: pass input and renderer to game loop
 
     return 0;

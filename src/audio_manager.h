@@ -9,9 +9,14 @@ class AudioManager
 {
     private:
        Mix_Music *m_currentMusic = nullptr;
+       bool Init();
 
     public:
-        AudioManager() = default;
+        AudioManager()
+        {
+            Init();
+        }
+        
         ~AudioManager();
         AudioManager(const AudioManager &other) = delete;
         AudioManager(AudioManager &&other) = default;

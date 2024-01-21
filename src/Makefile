@@ -1,5 +1,5 @@
 # Files to compile
-OBJS = pango.cpp gui.cpp gameloop.cpp init.cpp audio_manager.cpp
+OBJS = pango.cpp graphics.cpp gameloop.cpp asset_manager.cpp audio_manager.cpp
 
 # Compiler
 CC = g++

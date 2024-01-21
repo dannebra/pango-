@@ -3,6 +3,17 @@
 #include <SDL2/SDL_mixer.h>
 #include <string>
 
+
+bool AudioManager::Init()
+{
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0 ) {  // 44khz frequency, stereo
+        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+        return false;
+    }
+
+    return true;
+}
+
 /**
  * Load the music that will be played. Overwrites the currently selected music.
  * @param path path to the audio file in mp3 format 
@@ -42,4 +53,6 @@ void AudioManager::ToggleMusic() const
 AudioManager::~AudioManager()
 {
     Mix_FreeMusic(m_currentMusic);
+    m_currentMusic = nullptr;
+    Mix_Quit();
 }
