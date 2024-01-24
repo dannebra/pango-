@@ -33,7 +33,10 @@ int main(int argc, char *argv[])
 { 
     // ------------ Setup subsystems ------------
     Graphics *graphics = Graphics::Instance();
-    graphics->Init();
+    if (!graphics->HasInitialized()) {
+        graphics->FreeResources();
+        std::exit(EXIT_FAILURE);
+    }
 
     AudioManager audioManager{};
     // ------------ Finished setting up subsystems ------------

@@ -13,16 +13,18 @@ class Graphics
         const int screenHeight = 480;
 
     private:
+        bool m_Initialized = false;
         static Graphics *sInstance;
         SDL_Window *m_Window{};
         SDL_Renderer *m_Renderer{};
         TTF_Font *m_Font{};
+        bool Init();
 
         Graphics();
-
     public:
         static Graphics *Instance();
-        bool Init();
+        bool HasInitialized();
+        void FreeResources();
         SDL_Texture *LoadTexture(const std::string &path);
         void ClearBackBuffer();
         void Render();

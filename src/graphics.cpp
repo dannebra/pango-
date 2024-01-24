@@ -18,16 +18,18 @@ bool Graphics::Init()
     // Create the window to draw to
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-        std::exit(EXIT_FAILURE);
+        return false;
     } else {
         m_Window = SDL_CreateWindow("Pango++", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                     screenWidth, screenHeight, SDL_WINDOW_SHOWN);
         if (m_Window == NULL) {
             printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+            return false;
         } else {
             SDL_Surface *icon = IMG_Load("../assets/gui/pango.ico");
             if (icon == NULL) {
                 printf("Failed to load icon: %s\n", SDL_GetError());
+                return false;
             }
 
             SDL_SetWindowIcon(m_Window, icon);
@@ -38,6 +40,7 @@ bool Graphics::Init()
     m_Renderer = SDL_CreateRenderer(m_Window, -1, SDL_RENDERER_ACCELERATED);
     if (m_Renderer == NULL) {
         printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+        return false;
     }
     SDL_SetRenderDrawColor(m_Renderer, 0x0, 0x0, 0x0, 0x0); // black with full opacity
 
@@ -45,13 +48,17 @@ bool Graphics::Init()
     int imageFlags = IMG_INIT_PNG;
     if (!(IMG_Init(imageFlags) & imageFlags)) {
         printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+        return false;
     }
 
     // Initialize ttf library
     if (TTF_Init() == -1) {
         printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+        return false;
     }
     TTF_OpenFont("../assets/font/ModernDOS8x14.ttf", 28);
+
+    return true;
 }
 
 SDL_Texture *Graphics::LoadTexture(const std::string &path)
@@ -69,12 +76,12 @@ void Graphics::Render()
     SDL_RenderPresent(m_Renderer);
 }
 
-Graphics::Graphics()
+bool Graphics::HasInitialized()
 {
-    Init();
+    return m_Initialized;
 }
 
-Graphics::~Graphics()
+void Graphics::FreeResources()
 {
     SDL_DestroyWindow(m_Window);
     m_Window = nullptr;
@@ -88,4 +95,14 @@ Graphics::~Graphics()
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
+}
+
+Graphics::Graphics()
+{
+    m_Initialized = Init();
+}
+
+Graphics::~Graphics()
+{
+    FreeResources();
 }
