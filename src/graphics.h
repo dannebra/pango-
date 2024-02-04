@@ -19,8 +19,8 @@ class Graphics
         SDL_Renderer *m_Renderer{};
         TTF_Font *m_Font{};
         bool Init();
-
         Graphics();
+        
     public:
         static Graphics *Instance();
         bool HasInitialized();

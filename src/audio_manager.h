@@ -8,24 +8,25 @@
 class AudioManager
 {
     private:
-       Mix_Music *m_currentMusic = nullptr;
-       bool Init();
+        static AudioManager *s_Instance;
+        Mix_Music *m_currentMusic = nullptr;
+        bool m_Initialized = false;
 
     public:
-        AudioManager()
-        {
-            Init();
-        }
-        
-        ~AudioManager();
+        static AudioManager *Instance();
         AudioManager(const AudioManager &other) = delete;
         AudioManager(AudioManager &&other) = default;
         AudioManager& operator=(const AudioManager& other) = delete;
         AudioManager& operator=(AudioManager&& other) = delete;
 
+        void FreeResources();
         void LoadMusic(const std::string &path);
         void PlayMusic() const;
         void ToggleMusic() const;
+
+    private:
+        AudioManager();
+        ~AudioManager();
 };
 
 #endif
