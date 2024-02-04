@@ -3,15 +3,16 @@
 #include <SDL2/SDL_mixer.h>
 #include <string>
 
+AudioManager *AudioManager::s_Instance = nullptr;
 
-bool AudioManager::Init()
+AudioManager *AudioManager::Instance()
 {
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0 ) {  // 44khz frequency, stereo
-        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-        return false;
+    if (s_Instance == nullptr)
+    {
+        s_Instance = new AudioManager();
     }
 
-    return true;
+    return s_Instance;
 }
 
 /**
@@ -50,9 +51,25 @@ void AudioManager::ToggleMusic() const
     }
 }
 
-AudioManager::~AudioManager()
+void AudioManager::FreeResources()
 {
     Mix_FreeMusic(m_currentMusic);
     m_currentMusic = nullptr;
     Mix_Quit();
+}
+
+AudioManager::AudioManager()
+{
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0 ) {  // 44khz frequency, stereo
+        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+        m_Initialized = false;
+    } else {
+        m_Initialized = true;
+    }
+}
+
+
+AudioManager::~AudioManager()
+{
+    FreeResources();
 }
