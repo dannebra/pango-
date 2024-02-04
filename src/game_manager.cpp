@@ -23,6 +23,7 @@ void GameManager::Run()
     m_AudioManager->PlayMusic();
     while (!m_Quit)
     {
+        m_Timer->Update();
         while (SDL_PollEvent(&m_Event)) {
             switch (m_Event.type) {
                 case SDL_QUIT:
@@ -42,6 +43,12 @@ void GameManager::Run()
                 }
             }
         }
+
+        
+        if (m_Timer->DeltaTime() >= (1.0f / frameRate)) {
+            m_Graphics->Render();
+            m_Timer->Reset();
+        }
     }
 }
 
@@ -49,11 +56,17 @@ GameManager::GameManager()
 {
     m_Quit = false;
     m_AudioManager = AudioManager::Instance();
-    m_Graphics = Graphics::Instance();
+    if (!m_AudioManager->HasInitialized()) {
+        m_Quit = true;
+    }
 
+    m_Graphics = Graphics::Instance();
     if (!m_Graphics->HasInitialized()) {
         m_Quit = true;
     }
+
+    m_Timer = Timer::Instance();
+
 }
 
 GameManager::~GameManager()
@@ -63,4 +76,7 @@ GameManager::~GameManager()
 
     m_Graphics->FreeResources();
     m_Graphics = nullptr;
+
+    m_Timer->FreeResources();
+    m_Timer = nullptr;
 }

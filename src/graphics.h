@@ -9,8 +9,8 @@
 class Graphics
 {
     public:
-        const int screenWidth = 640;
-        const int screenHeight = 480;
+        static const int screenWidth = 640;
+        static const int screenHeight = 480;
 
     private:
         bool m_Initialized = false;
@@ -20,7 +20,7 @@ class Graphics
         TTF_Font *m_Font{};
         bool Init();
         Graphics();
-        
+
     public:
         static Graphics *Instance();
         bool HasInitialized();

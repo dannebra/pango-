@@ -19,6 +19,7 @@ class AudioManager
         AudioManager& operator=(const AudioManager& other) = delete;
         AudioManager& operator=(AudioManager&& other) = delete;
 
+        bool HasInitialized();
         void FreeResources();
         void LoadMusic(const std::string &path);
         void PlayMusic() const;

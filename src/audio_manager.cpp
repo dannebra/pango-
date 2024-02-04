@@ -49,6 +49,11 @@ void AudioManager::ToggleMusic() const
     }
 }
 
+bool AudioManager::HasInitialized()
+{
+    return m_Initialized;
+}
+
 void AudioManager::FreeResources()
 {
     Mix_FreeMusic(m_currentMusic);
