@@ -7,8 +7,8 @@
 class AssetManager
 {
     private:
-        static AssetManager *sAssetManager;
-        std::unordered_map<std::string, SDL_Texture*> m_textures;
+        static AssetManager *s_AssetManager;
+        std::unordered_map<std::string, SDL_Texture*> m_Textures;
 
     public:
         static AssetManager *Instance();

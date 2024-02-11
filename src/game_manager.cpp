@@ -2,6 +2,39 @@
 
 GameManager *GameManager::s_Instance = nullptr;
 
+GameManager::GameManager()
+{
+    m_Quit = false;
+    m_AudioManager = AudioManager::Instance();
+    if (!m_AudioManager->HasInitialized()) {
+        m_Quit = true;
+    }
+
+    m_Graphics = Graphics::Instance();
+    if (!m_Graphics->HasInitialized()) {
+        m_Quit = true;
+    }
+
+    m_Timer = Timer::Instance();
+
+    m_AssetManager = AssetManager::Instance();
+}
+
+GameManager::~GameManager()
+{
+    m_AudioManager->FreeResources();
+    m_AudioManager = nullptr;
+
+    m_Graphics->FreeResources();
+    m_Graphics = nullptr;
+
+    m_Timer->FreeResources();
+    m_Timer = nullptr;
+
+    m_AssetManager->Release();
+    m_AssetManager = nullptr;
+}
+
 GameManager *GameManager::Instance()
 {
     if (s_Instance == nullptr) {
@@ -50,33 +83,4 @@ void GameManager::Run()
             m_Timer->Reset();
         }
     }
-}
-
-
-GameManager::GameManager()
-{
-    m_Quit = false;
-    m_AudioManager = AudioManager::Instance();
-    if (!m_AudioManager->HasInitialized()) {
-        m_Quit = true;
-    }
-
-    m_Graphics = Graphics::Instance();
-    if (!m_Graphics->HasInitialized()) {
-        m_Quit = true;
-    }
-
-    m_Timer = Timer::Instance();
-}
-
-GameManager::~GameManager()
-{
-    m_AudioManager->FreeResources();
-    m_AudioManager = nullptr;
-
-    m_Graphics->FreeResources();
-    m_Graphics = nullptr;
-
-    m_Timer->FreeResources();
-    m_Timer = nullptr;
 }

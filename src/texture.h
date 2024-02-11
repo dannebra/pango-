@@ -11,12 +11,15 @@ class Texture : public GameEntity
     private:
         SDL_Texture *m_Texture;
         Graphics *m_Graphics;
+
+        int m_Width{};
+        int m_Height{};
     public:
         Texture() = delete;
-        Texture(const std::string &path);
+        Texture(const std::string &filename);
         ~Texture();
 
-        void Render();
+        virtual void Render();
 };
 
 #endif

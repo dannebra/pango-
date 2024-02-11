@@ -1,30 +1,30 @@
 #include "asset_manager.h"
 #include "graphics.h"
 
-AssetManager* AssetManager::sAssetManager{nullptr};
+AssetManager* AssetManager::s_AssetManager{nullptr};
 
 AssetManager *AssetManager::Instance()
 {
-    if (!sAssetManager) {
-        sAssetManager = new AssetManager();
+    if (!s_AssetManager) {
+        s_AssetManager = new AssetManager();
     }
 
-    return sAssetManager;
+    return s_AssetManager;
 }
 
 void AssetManager::Release()
 {
-    delete sAssetManager;
-    sAssetManager = nullptr;
+    delete s_AssetManager;
+    s_AssetManager = nullptr;
 }
 
 AssetManager::~AssetManager()
 {
-    for (auto values : m_textures) {
+    for (auto values : m_Textures) {
         SDL_DestroyTexture(values.second);
     }
 
-    m_textures.clear();
+    m_Textures.clear();
 }
 
 SDL_Texture *AssetManager::GetTexture(const std::string &filename)
@@ -32,9 +32,9 @@ SDL_Texture *AssetManager::GetTexture(const std::string &filename)
     std::string texturePath{SDL_GetBasePath()};
     texturePath.append("assets/" + filename);
 
-    if (m_textures[texturePath] == nullptr) {
-        m_textures[texturePath] = Graphics::Instance()->LoadTexture(texturePath);
+    if (m_Textures[texturePath] == nullptr) {
+        m_Textures[texturePath] = Graphics::Instance()->LoadTexture(texturePath);
     }
 
-    return m_textures[texturePath];
+    return m_Textures[texturePath];
 }

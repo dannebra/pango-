@@ -1,6 +1,7 @@
 #ifndef _GAME_MANAGER_
 #define _GAME_MANAGER_
 
+#include "asset_manager.h"
 #include "audio_manager.h"
 #include "texture.h"
 #include "timer.h"
@@ -13,6 +14,7 @@ class GameManager
         const int frameRate = 60;
 
         AudioManager *m_AudioManager;
+        AssetManager *m_AssetManager;
         Graphics *m_Graphics;
         Timer *m_Timer;
 
