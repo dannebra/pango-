@@ -2,7 +2,7 @@
 #define _GAME_MANAGER_
 
 #include "audio_manager.h"
-#include "graphics.h"
+#include "texture.h"
 #include "timer.h"
 
 class GameManager
@@ -27,6 +27,5 @@ class GameManager
         GameManager();
         ~GameManager();
 };
-
 
 #endif

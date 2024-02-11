@@ -33,8 +33,8 @@ class GameEntity
         void SetParent(GameEntity *parent);
         GameEntity *GetParent();
 
-        virtual void Update() = 0;
-        virtual void Render() = 0;
+        virtual void Update();
+        virtual void Render();
 };
 
 #endif

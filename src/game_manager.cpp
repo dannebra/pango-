@@ -52,6 +52,7 @@ void GameManager::Run()
     }
 }
 
+
 GameManager::GameManager()
 {
     m_Quit = false;
@@ -66,7 +67,6 @@ GameManager::GameManager()
     }
 
     m_Timer = Timer::Instance();
-
 }
 
 GameManager::~GameManager()

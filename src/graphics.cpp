@@ -71,6 +71,11 @@ void Graphics::ClearBackBuffer()
     SDL_RenderClear(m_Renderer);
 }
 
+void Graphics::DrawTexture(SDL_Texture *texture)
+{
+    SDL_RenderCopy(m_Renderer, texture, NULL, NULL);
+}
+
 void Graphics::Render()
 {
     SDL_RenderPresent(m_Renderer);

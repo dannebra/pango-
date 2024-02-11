@@ -72,3 +72,7 @@ GameEntity *GameEntity::GetParent()
 {
     return m_Parent;
 }
+
+void GameEntity::Update() {}
+
+void GameEntity::Render() {}
