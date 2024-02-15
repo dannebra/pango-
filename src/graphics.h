@@ -27,7 +27,7 @@ class Graphics
         void FreeResources();
         SDL_Texture *LoadTexture(const std::string &path);
         void ClearBackBuffer();
-        void DrawTexture(SDL_Texture *texture);
+        void DrawTexture(SDL_Texture *texture, SDL_Rect *rect = nullptr);
         void Render();
         
         ~Graphics();

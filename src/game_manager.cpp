@@ -18,6 +18,8 @@ GameManager::GameManager()
     m_Timer = Timer::Instance();
 
     m_AssetManager = AssetManager::Instance();
+    m_Tex = new Texture("pango_title.png");
+    m_Tex->SetPosition(Vector::Vector2{Graphics::screenWidth * 0.5f, Graphics::screenHeight * 0.4f});
 }
 
 GameManager::~GameManager()
@@ -81,6 +83,7 @@ void GameManager::Run()
         if (m_Timer->DeltaTime() >= (1.0f / frameRate)) {
             m_Graphics->Render();
             m_Timer->Reset();
+            m_Tex->Render();
         }
     }
 }

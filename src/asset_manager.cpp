@@ -30,7 +30,7 @@ AssetManager::~AssetManager()
 SDL_Texture *AssetManager::GetTexture(const std::string &filename)
 {
     std::string texturePath{SDL_GetBasePath()};
-    texturePath.append("assets/" + filename);
+    texturePath.append("../assets/gui/" + filename);
 
     if (m_Textures[texturePath] == nullptr) {
         m_Textures[texturePath] = Graphics::Instance()->LoadTexture(texturePath);

@@ -15,18 +15,18 @@ GameEntity::~GameEntity()
     m_Parent = nullptr;
 }
 
-void GameEntity::SetPosition(Vector2 pos)
+void GameEntity::SetPosition(Vector::Vector2 pos)
 {
     m_Position = pos;
 }
 
-Vector2 GameEntity::GetPosition(Space space)
+Vector::Vector2 GameEntity::GetPosition(Space space)
 {
     if (space == Space::local || m_Parent == nullptr) {
         return m_Position;
     }
 
-    return VectorAdd(m_Parent->GetPosition(Space::world), VectorRotate(m_Position, m_Parent->GetRotation(Space::local)));
+    return Vector::Add(m_Parent->GetPosition(Space::world), Vector::Rotate(m_Position, m_Parent->GetRotation(Space::local)));
 }
 
 void GameEntity::SetRotation(float rotation)
@@ -35,10 +35,10 @@ void GameEntity::SetRotation(float rotation)
 
     if (m_Rotation > 360.0f) { // Keep rotation between 0 and 360 degrees
         int mul = m_Rotation / 360;
-        m_Rotation = 360.0f * mul;
+        m_Rotation -= 360.0f * mul;
     } else if (m_Rotation < 0.0f) {
         int mul = (m_Rotation / 360) - 1;
-        m_Rotation = 360.0f * mul;
+        m_Rotation -= 360.0f * mul;
     }
 }
 
@@ -64,7 +64,7 @@ bool GameEntity::GetActive()
 void GameEntity::SetParent(GameEntity *parent)
 {
     // Update child's relative position to parent
-    m_Position = VectorSubtract(GetPosition(Space::world), m_Parent->GetPosition(Space::world));    
+    m_Position = Vector::Subtract(GetPosition(Space::world), m_Parent->GetPosition(Space::world));    
     m_Parent = parent;
 }
 

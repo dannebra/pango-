@@ -15,7 +15,7 @@ class GameEntity
             world,
         };
     private:
-        Vector2 m_Position{};
+        Vector::Vector2 m_Position{};
         float m_Rotation{};
         bool m_Active{};
         GameEntity *m_Parent{};
@@ -24,8 +24,8 @@ class GameEntity
         GameEntity(float x = 0.0f, float y = 0.0f);
         ~GameEntity();
 
-        void SetPosition(Vector2 pos);
-        Vector2 GetPosition(Space space = Space::world);
+        void SetPosition(Vector::Vector2 pos);
+        Vector::Vector2 GetPosition(Space space = Space::world);
         void SetRotation(const float rotation);
         float GetRotation(Space space = Space::world);
         void SetActive(bool active);

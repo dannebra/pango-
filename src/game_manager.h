@@ -19,7 +19,7 @@ class GameManager
         Timer *m_Timer;
 
         SDL_Event m_Event{};
-
+        Texture *m_Tex;
     public:
         static GameManager *Instance();
         static void ShutdownGame();

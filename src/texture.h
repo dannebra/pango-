@@ -14,6 +14,7 @@ class Texture : public GameEntity
 
         int m_Width{};
         int m_Height{};
+        SDL_Rect m_RenderRect;
     public:
         Texture() = delete;
         Texture(const std::string &filename);
