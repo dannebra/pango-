@@ -23,7 +23,7 @@ class Texture : public GameEntity
         Texture(const std::string &filename, int x, int y, int width, int height);
         ~Texture();
 
-        virtual void Render();
+        virtual void Render() override;
     private:
         void Setup(const std::string &filename);
 };

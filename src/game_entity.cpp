@@ -73,6 +73,11 @@ GameEntity *GameEntity::GetParent()
     return m_Parent;
 }
 
+void GameEntity::Translate(Vector::Vector2 offset)
+{
+    m_Position.Add(offset);
+}
+
 void GameEntity::Update() {}
 
 void GameEntity::Render() {}

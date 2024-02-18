@@ -34,6 +34,22 @@ namespace Vector
             float magnitude = Magnitude();
             return Vector2{x / magnitude, y / magnitude};
         }
+
+        Vector2 &Add(Vector::Vector2 offset)
+        {
+            x += offset.x;
+            y += offset.y;
+
+            return *this;
+        }
+
+        Vector2 &Subtract(Vector::Vector2 offset)
+        {
+            x -= offset.x;
+            y -= offset.y;
+
+            return *this;
+        }
     };
 
     inline Vector2 Add(const Vector2 &first, const Vector2 &second)
@@ -44,6 +60,11 @@ namespace Vector
     inline Vector2 Subtract(const Vector2 &first, const Vector2 &second)
     {
         return Vector2{first.x - second.x, first.y - second.y};
+    }
+
+    inline Vector2 Multiply(const Vector2 &vec, const float factor)
+    {
+        return Vector2(vec.x * factor, vec.y * factor);
     }
 
     inline Vector2 Rotate(const Vector2 &vec, const float angle)

@@ -20,6 +20,9 @@ GameManager::GameManager()
     m_AssetManager = AssetManager::Instance();
     m_Tex = new Texture("pango_title.png");
     m_Tex->SetPosition(Vector::Vector2{Graphics::screenWidth * 0.5f, Graphics::screenHeight * 0.4f});
+
+    m_InputManager = InputManager::Instance();
+
 }
 
 GameManager::~GameManager()
@@ -34,6 +37,9 @@ GameManager::~GameManager()
     m_Timer = nullptr;
 
     m_AssetManager->Release();
+    m_AssetManager = nullptr;
+
+    m_InputManager->Release();
     m_AssetManager = nullptr;
 }
 
@@ -60,27 +66,25 @@ void GameManager::Run()
     {
         m_Timer->Update();
         while (SDL_PollEvent(&m_Event)) {
-            switch (m_Event.type) {
-                case SDL_QUIT:
-                {
-                    std::exit(EXIT_SUCCESS); // TODO: Cleanup before exiting
-                }
-                case SDL_KEYDOWN:
-                {
-                    SDL_Keycode pressedKey = m_Event.key.keysym.sym;
-                    if (pressedKey == SDLK_ESCAPE) {
-                        std::exit(EXIT_SUCCESS); // TODO: Cleanup before exiting
-                    } else if (pressedKey == SDLK_m) {
-                        m_AudioManager->ToggleMusic();
-                    }
-
-                    break;
-                }
+            if (m_Event.type == SDL_QUIT) {
+                m_Quit = true;
             }
         }
 
-        
+        m_InputManager->Update();
+        if (m_InputManager->KeyDown(SDL_SCANCODE_M)) {
+            m_AudioManager->ToggleMusic();
+        } else if (m_InputManager->KeyDown(SDL_SCANCODE_ESCAPE)) {
+            m_Quit = true;
+        }
+
         if (m_Timer->DeltaTime() >= (1.0f / frameRate)) {
+            if (m_InputManager->KeyDown(SDL_SCANCODE_W)) {
+                m_Tex->Translate(Vector::Multiply(Vector::Vector2(0.0f, -40.0f), m_Timer->DeltaTime()));
+            } else if (m_InputManager->KeyDown(SDL_SCANCODE_S)) {
+                m_Tex->Translate(Vector::Multiply(Vector::Vector2(0.0f, 40.0f), m_Timer->DeltaTime()));
+            }
+
             m_Graphics->Render();
             m_Timer->Reset();
             m_Tex->Render();

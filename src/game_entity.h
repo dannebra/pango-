@@ -33,6 +33,8 @@ class GameEntity
         void SetParent(GameEntity *parent);
         GameEntity *GetParent();
 
+        void Translate(Vector::Vector2 vector);
+
         virtual void Update();
         virtual void Render();
 };
