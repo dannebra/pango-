@@ -8,7 +8,7 @@
 
 class Texture : public GameEntity
 {
-    private:
+    protected:
         SDL_Texture *m_Texture;
         Graphics *m_Graphics;
 

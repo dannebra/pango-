@@ -1,11 +1,10 @@
 #ifndef _GAME_MANAGER_
 #define _GAME_MANAGER_
 
+#include "animated_texture.h"
 #include "asset_manager.h"
 #include "audio_manager.h"
 #include "input_manager.h"
-#include "texture.h"
-#include "timer.h"
 
 class GameManager
 {
@@ -21,7 +20,7 @@ class GameManager
         Timer *m_Timer;
 
         SDL_Event m_Event{};
-        Texture *m_Tex;
+        AnimatedTexture *m_Tex;
     public:
         static GameManager *Instance();
         static void ShutdownGame();

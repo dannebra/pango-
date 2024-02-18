@@ -18,11 +18,10 @@ GameManager::GameManager()
     m_Timer = Timer::Instance();
 
     m_AssetManager = AssetManager::Instance();
-    m_Tex = new Texture("pango_title.png");
+    m_Tex = new AnimatedTexture("pango_title.png", AnimatedTexture::Attributes{0, 0, 210, 82, 0, 0.0f, AnimatedTexture::AnimationDirection::horizontal});
     m_Tex->SetPosition(Vector::Vector2{Graphics::screenWidth * 0.5f, Graphics::screenHeight * 0.4f});
 
     m_InputManager = InputManager::Instance();
-
 }
 
 GameManager::~GameManager()
@@ -85,6 +84,7 @@ void GameManager::Run()
                 m_Tex->Translate(Vector::Multiply(Vector::Vector2(0.0f, 40.0f), m_Timer->DeltaTime()));
             }
 
+            m_Tex->Update();
             m_Graphics->Render();
             m_Timer->Reset();
             m_Tex->Render();
