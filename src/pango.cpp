@@ -14,10 +14,8 @@
 
 #include "asset_manager.h"
 #include "audio_manager.h"
-#include "gameloop.h"
 #include "game_manager.h"
 #include "graphics.h"
-#include "input.h"
 #include "texture.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
