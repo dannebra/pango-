@@ -11,10 +11,10 @@ COMPILER_FLAGS_DEBUG = -Werror -Wshadow -Wall -std=c++17 -g
 LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 # Name of the exectuable
-EXECUTABLE = pango
+EXECUTABLE = Pango++
 
 # Debug build name
-EXECUTABLE_DEBUG = pango_debug
+EXECUTABLE_DEBUG = PangoDebug
 
 pango : $(OBJS)	
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(EXECUTABLE)
@@ -38,4 +38,4 @@ run_debug:
 
 .PHONY: clean
 clean:
-	rm -f *.o pango pango_debug
+	rm -f *.o $(EXECUTABLE) $(EXECUTABLE_DEBUG)
