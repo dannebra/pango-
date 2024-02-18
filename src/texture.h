@@ -14,13 +14,18 @@ class Texture : public GameEntity
 
         int m_Width{};
         int m_Height{};
+        bool m_Clipped;
         SDL_Rect m_RenderRect;
+        SDL_Rect m_ClippedRect;
     public:
         Texture() = delete;
         Texture(const std::string &filename);
+        Texture(const std::string &filename, int x, int y, int width, int height);
         ~Texture();
 
         virtual void Render();
+    private:
+        void Setup(const std::string &filename);
 };
 
 #endif
