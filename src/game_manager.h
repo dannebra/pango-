@@ -21,6 +21,7 @@ class GameManager
 
         SDL_Event m_Event{};
         AnimatedTexture *m_Tex;
+        Texture *m_Text;
     public:
         static GameManager *Instance();
         static void ShutdownGame();

@@ -21,6 +21,7 @@ class Texture : public GameEntity
         Texture() = delete;
         Texture(const std::string &filename);
         Texture(const std::string &filename, int x, int y, int width, int height);
+        Texture(const std::string &text, const std::string &fontPath, const int size, const SDL_Color color);
         ~Texture();
 
         virtual void Render() override;

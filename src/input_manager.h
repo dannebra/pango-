@@ -13,7 +13,7 @@ class InputManager
     
     public:
         static InputManager* Instance();
-        static void Release();
+        static void FreeResources();
 
         bool KeyDown(SDL_Scancode scancode);
         void Update();

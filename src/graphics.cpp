@@ -56,7 +56,6 @@ bool Graphics::Init()
         printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
         return false;
     }
-    TTF_OpenFont("../assets/font/ModernDOS8x14.ttf", 28);
 
     return true;
 }
@@ -76,6 +75,24 @@ void Graphics::DrawTexture(SDL_Texture *texture, SDL_Rect *clip, SDL_Rect *rect)
     SDL_RenderCopy(m_Renderer, texture, clip, rect);
 }
 
+SDL_Texture *Graphics::CreateTextTexture(TTF_Font *font, const std::string &text, const SDL_Color color)
+{
+    SDL_Surface *surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    if (surface == NULL) {
+        printf("Text Render Error: %s\n", TTF_GetError());
+        return nullptr;
+    }
+
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(m_Renderer, surface);
+    if (textTexture == NULL) {
+        printf("Text Texture Creation Error: %s\n", SDL_GetError());
+        return nullptr;
+    }
+    SDL_FreeSurface(surface);
+
+    return textTexture;
+}
+
 void Graphics::Render()
 {
     SDL_RenderPresent(m_Renderer);
@@ -93,9 +110,6 @@ void Graphics::FreeResources()
 
     SDL_DestroyRenderer(m_Renderer);
     m_Renderer = nullptr;
-
-    TTF_CloseFont(m_Font);
-    m_Font = nullptr;
 
     IMG_Quit();
     TTF_Quit();

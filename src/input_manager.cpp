@@ -11,7 +11,7 @@ InputManager *InputManager::Instance()
     return s_Instance;
 }
 
-void InputManager::Release()
+void InputManager::FreeResources()
 {
     delete s_Instance;
     s_Instance = nullptr;

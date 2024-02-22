@@ -17,7 +17,6 @@ class Graphics
         static Graphics *sInstance;
         SDL_Window *m_Window{};
         SDL_Renderer *m_Renderer{};
-        TTF_Font *m_Font{};
         bool Init();
         Graphics();
 
@@ -28,6 +27,7 @@ class Graphics
         SDL_Texture *LoadTexture(const std::string &path);
         void ClearBackBuffer();
         void DrawTexture(SDL_Texture *texture, SDL_Rect *clip = nullptr, SDL_Rect *rect = nullptr);
+        SDL_Texture *CreateTextTexture(TTF_Font *font, const std::string &text, const SDL_Color color);
         void Render();
         
         ~Graphics();
