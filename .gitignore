@@ -1,4 +1,4 @@
 .vscode
 
-src/pango
-src/pango_debug
+src/Pango++
+src/PangoDebug

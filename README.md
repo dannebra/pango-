@@ -20,7 +20,8 @@ Make sure that SDL2 is installed on your computer. Follow the instructions [here
 
 ## Controls
 * ESC: Exit the game.
-* M: Toggle music.
+* M: Pause music.
+* N: Resume music.
 
 ## Architecture (TODO)
 The plan is to use the state pattern in order to easily swtich between different game states.
