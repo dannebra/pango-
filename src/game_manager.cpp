@@ -6,10 +6,7 @@ GameManager::GameManager()
 {
     m_Quit = false;
     m_AudioManager = AudioManager::Instance();
-    if (!m_AudioManager->HasInitialized()) {
-        m_Quit = true;
-    }
-
+    
     m_Graphics = Graphics::Instance();
     if (!m_Graphics->HasInitialized()) {
         m_Quit = true;
@@ -62,8 +59,7 @@ void GameManager::ShutdownGame()
 
 void GameManager::Run()
 {
-    m_AudioManager->LoadMusic("../assets/audio/title_theme.mp3");
-    m_AudioManager->PlayMusic();
+    m_AudioManager->PlayMusic("title_theme.mp3");
     while (!m_Quit)
     {
         m_Timer->Update();
@@ -73,14 +69,22 @@ void GameManager::Run()
             }
         }
 
-        m_InputManager->Update();
-        if (m_InputManager->KeyDown(SDL_SCANCODE_M)) {
-            m_AudioManager->ToggleMusic();
-        } else if (m_InputManager->KeyDown(SDL_SCANCODE_ESCAPE)) {
-            m_Quit = true;
-        }
-
+        
         if (m_Timer->DeltaTime() >= (1.0f / frameRate)) {
+            m_InputManager->Update();
+            if (m_InputManager->KeyDown(SDL_SCANCODE_ESCAPE)) {
+                m_Quit = true;
+            }
+
+            if (m_InputManager->KeyDown(SDL_SCANCODE_M)) {
+                m_AudioManager->PauseMusic();
+            }
+
+            if (m_InputManager->KeyDown(SDL_SCANCODE_N)) {
+                m_AudioManager->ResumeMusic();
+            }
+
+            // TODO: Temp stuff, remove this
             if (m_InputManager->KeyDown(SDL_SCANCODE_W)) {
                 m_Tex->Translate(Vector::Multiply(Vector::Vector2(0.0f, -40.0f), m_Timer->DeltaTime()));
             } else if (m_InputManager->KeyDown(SDL_SCANCODE_S)) {

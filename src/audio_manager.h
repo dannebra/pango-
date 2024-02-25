@@ -1,16 +1,13 @@
 #ifndef _AUDIO_MANAGER_H_
 #define _AUDIO_MANAGER_H_
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
-#include <string>
+#include "asset_manager.h"
 
 class AudioManager
 {
     private:
         static AudioManager *s_Instance;
-        Mix_Music *m_currentMusic = nullptr;
-        bool m_Initialized = false;
+        AssetManager *m_AssetManager;
 
     public:
         static AudioManager *Instance();
@@ -19,11 +16,11 @@ class AudioManager
         AudioManager& operator=(const AudioManager& other) = delete;
         AudioManager& operator=(AudioManager&& other) = delete;
 
-        bool HasInitialized();
-        void FreeResources();
-        void LoadMusic(const std::string &path);
-        void PlayMusic() const;
-        void ToggleMusic() const;
+        static void FreeResources();
+        void PlayMusic(const std::string &filename, int loops = -1) const; // -1 = loop forever
+        void PlaySfx(const std::string &filename, int channel = 0, int loops = 0) const;
+        void PauseMusic() const;
+        void ResumeMusic() const;
 
     private:
         AudioManager();
