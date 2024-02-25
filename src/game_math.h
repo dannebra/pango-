@@ -16,7 +16,7 @@ namespace Vector
         float x;
         float y;
 
-        Vector2(float _x = 0.0f, float _y = 0.0f)
+        constexpr Vector2(float _x = 0.0f, float _y = 0.0f)
         : x{_x}, y{_y} {}
 
         float MagnitudeSquared() const
@@ -75,7 +75,11 @@ namespace Vector
             static_cast<float>((vec.x * cos(radAngle)) - (vec.y * sin(radAngle))),
             static_cast<float>((vec.x * sin(radAngle)) + (vec.y * cos(radAngle)))};
     }
-}
 
+    inline constexpr Vector2 VECTOR2_ZERO{0.0f, 0.0f};
+    inline constexpr Vector2 VECTOR2_ONE{1.0f, 1.0f};
+    inline constexpr Vector2 VECTOR2_UP{0.0f, 1.0f};
+    inline constexpr Vector2 VECTOR2_RIGHT{1.0f, 0.0f};
+}
 
 #endif

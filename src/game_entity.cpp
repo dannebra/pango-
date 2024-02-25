@@ -5,7 +5,9 @@ GameEntity::GameEntity(float x, float y)
     m_Position.x = x;
     m_Position.y = y;
 
+    m_Scale = Vector::VECTOR2_ONE;
     m_Rotation = 0.0f;
+
     m_Active = true;
     m_Parent = nullptr;
 }
@@ -15,7 +17,7 @@ GameEntity::~GameEntity()
     m_Parent = nullptr;
 }
 
-void GameEntity::SetPosition(Vector::Vector2 pos)
+void GameEntity::SetPosition(const Vector::Vector2 pos)
 {
     m_Position = pos;
 }
@@ -25,11 +27,29 @@ Vector::Vector2 GameEntity::GetPosition(Space space)
     if (space == Space::local || m_Parent == nullptr) {
         return m_Position;
     }
+    Vector::Vector2 parentScale = m_Parent->GetScale(Space::world);
+    Vector::Vector2 rotationPosition = Vector::Rotate(m_Position, m_Parent->GetRotation(Space::local));
 
-    return Vector::Add(m_Parent->GetPosition(Space::world), Vector::Rotate(m_Position, m_Parent->GetRotation(Space::local)));
+    return Vector::Add(m_Parent->GetPosition(Space::world),
+                       Vector::Vector2(rotationPosition.x * parentScale.x, rotationPosition.y * parentScale.y));
 }
 
-void GameEntity::SetRotation(float rotation)
+void GameEntity::SetScale(const Vector::Vector2 scale)
+{
+    m_Scale = scale;
+}
+
+Vector::Vector2 GameEntity::GetScale(Space space)
+{
+    if (space == Space::local || m_Parent == nullptr) {
+        return m_Scale;
+    }
+    Vector::Vector2 parentScale = m_Parent->GetScale(Space::world);
+
+    return Vector::Vector2(parentScale.x * m_Scale.x, parentScale.y * m_Scale.y);
+}
+
+void GameEntity::SetRotation(const float rotation)
 {
     m_Rotation = rotation;
 
@@ -63,9 +83,14 @@ bool GameEntity::GetActive()
 
 void GameEntity::SetParent(GameEntity *parent)
 {
-    // Update child's relative position to parent
-    m_Position = Vector::Subtract(GetPosition(Space::world), m_Parent->GetPosition(Space::world));    
+    if (this == parent) {
+        m_Parent = nullptr;
+        return;
+    }
+    
     m_Parent = parent;
+    // Update child's relative position to parent
+    m_Position = Vector::Subtract(GetPosition(Space::world), m_Parent->GetPosition(Space::world));     
 }
 
 GameEntity *GameEntity::GetParent()
@@ -76,6 +101,11 @@ GameEntity *GameEntity::GetParent()
 void GameEntity::Translate(Vector::Vector2 offset)
 {
     m_Position.Add(offset);
+}
+
+void GameEntity::Rotate(const float amount)
+{
+    m_Rotation += amount;
 }
 
 void GameEntity::Update() {}

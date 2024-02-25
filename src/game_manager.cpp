@@ -14,14 +14,15 @@ GameManager::GameManager()
 
     m_Timer = Timer::Instance();
 
+    m_InputManager = InputManager::Instance();
+
     m_AssetManager = AssetManager::Instance();
+
     m_Tex = new AnimatedTexture("pango_title.png", AnimatedTexture::Attributes{0, 0, 210, 82, 0, 0.0f, AnimatedTexture::AnimationDirection::horizontal});
     m_Tex->SetPosition(Vector::Vector2{Graphics::screenWidth * 0.5f, Graphics::screenHeight * 0.3f});
 
     m_Text = new Texture("Start", "ModernDOS8x14.ttf", 22, SDL_Color{0xff, 0xff, 0xff});
     m_Text->SetPosition(Vector::Vector2{Graphics::screenWidth * 0.5f, Graphics::screenHeight * 0.5f});
-
-    m_InputManager = InputManager::Instance();
 }
 
 GameManager::~GameManager()
@@ -69,7 +70,6 @@ void GameManager::Run()
             }
         }
 
-        
         if (m_Timer->DeltaTime() >= (1.0f / frameRate)) {
             m_InputManager->Update();
             if (m_InputManager->KeyDown(SDL_SCANCODE_ESCAPE)) {
@@ -93,10 +93,14 @@ void GameManager::Run()
 
             m_Tex->Update();
             m_Text->Update();
-            m_Graphics->Render();
+
+            m_Graphics->ClearBackBuffer();
             m_Timer->Reset();
+
             m_Tex->Render();
             m_Text->Render();
+
+            m_Graphics->Render();
         }
     }
 }

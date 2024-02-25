@@ -16,6 +16,7 @@ class GameEntity
         };
     private:
         Vector::Vector2 m_Position{};
+        Vector::Vector2 m_Scale{};
         float m_Rotation{};
         bool m_Active{};
         GameEntity *m_Parent{};
@@ -24,16 +25,23 @@ class GameEntity
         GameEntity(float x = 0.0f, float y = 0.0f);
         ~GameEntity();
 
-        void SetPosition(Vector::Vector2 pos);
+        void SetPosition(const Vector::Vector2 pos);
         Vector::Vector2 GetPosition(Space space = Space::world);
+
+        void SetScale(const Vector::Vector2 scale);
+        Vector::Vector2 GetScale(Space space = Space::world);
+
         void SetRotation(const float rotation);
         float GetRotation(Space space = Space::world);
+        
         void SetActive(bool active);
         bool GetActive();
+        
         void SetParent(GameEntity *parent);
         GameEntity *GetParent();
 
         void Translate(Vector::Vector2 vector);
+        void Rotate(const float amount);
 
         virtual void Update();
         virtual void Render();

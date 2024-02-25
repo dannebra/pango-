@@ -70,9 +70,9 @@ void Graphics::ClearBackBuffer()
     SDL_RenderClear(m_Renderer);
 }
 
-void Graphics::DrawTexture(SDL_Texture *texture, SDL_Rect *clip, SDL_Rect *rect)
+void Graphics::DrawTexture(SDL_Texture *texture, const SDL_Rect *clip, const SDL_Rect *rect, const float angle, const SDL_RendererFlip flip)
 {
-    SDL_RenderCopy(m_Renderer, texture, clip, rect);
+    SDL_RenderCopyEx(m_Renderer, texture, clip, rect, angle, NULL, flip);
 }
 
 SDL_Texture *Graphics::CreateTextTexture(TTF_Font *font, const std::string &text, const SDL_Color color)

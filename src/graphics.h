@@ -26,7 +26,7 @@ class Graphics
         void FreeResources();
         SDL_Texture *LoadTexture(const std::string &path);
         void ClearBackBuffer();
-        void DrawTexture(SDL_Texture *texture, SDL_Rect *clip = nullptr, SDL_Rect *rect = nullptr);
+        void DrawTexture(SDL_Texture *texture, const SDL_Rect *clip = nullptr, const SDL_Rect *rect = nullptr, const float angle = 0.0f, const SDL_RendererFlip flip = SDL_FLIP_NONE);
         SDL_Texture *CreateTextTexture(TTF_Font *font, const std::string &text, const SDL_Color color);
         void Render();
         
