@@ -53,7 +53,7 @@ void AudioManager::PauseMusic() const
 
 void AudioManager::ResumeMusic() const
 {
-    if (Mix_PausedMusic != 0) {
+    if (Mix_PausedMusic() != 0) {
         Mix_ResumeMusic();
     }
 }
