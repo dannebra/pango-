@@ -34,6 +34,16 @@ AssetManager::~AssetManager()
         TTF_CloseFont(font.second);
     }
     m_Fonts.clear();
+
+    for (auto music : m_Music) {
+        Mix_FreeMusic(music.second);
+    }
+    m_Music.clear();
+
+    for (auto sfx : m_Sfx) {
+        Mix_FreeChunk(sfx.second);
+    }
+    m_Sfx.clear();
 }
 
 SDL_Texture *AssetManager::GetTexture(const std::string &filename)

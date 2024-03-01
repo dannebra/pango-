@@ -60,8 +60,8 @@ Texture::~Texture()
 void Texture::Render()
 {
     Vector::Vector2 scale = GetScale(Space::world);
-
     Vector::Vector2 position = GetPosition(Space::world);
+    
     m_RenderRect.x = static_cast<int>(position.x - ((m_Width * scale.x) * 0.5f));
     m_RenderRect.y = static_cast<int>(position.y - ((m_Height * scale.y) * 0.5f));
     m_RenderRect.w = static_cast<int>(m_Width * scale.x);

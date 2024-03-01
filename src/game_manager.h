@@ -30,6 +30,11 @@ class GameManager
     private:
         GameManager();
         ~GameManager();
+
+        void EarlyUpdate();
+        void Update();
+        void LateUpdate();
+        void Render();
 };
 
 #endif

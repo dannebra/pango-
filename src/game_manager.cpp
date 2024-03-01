@@ -23,6 +23,7 @@ GameManager::GameManager()
 
     m_Text = new Texture("Start", "ModernDOS8x14.ttf", 22, SDL_Color{0xff, 0xff, 0xff});
     m_Text->SetPosition(Vector::Vector2{Graphics::screenWidth * 0.5f, Graphics::screenHeight * 0.5f});
+    m_Text->SetParent(m_Tex);
 }
 
 GameManager::~GameManager()
@@ -58,6 +59,71 @@ void GameManager::ShutdownGame()
     s_Instance = nullptr;
 }
 
+void GameManager::EarlyUpdate()
+{
+    m_InputManager->Update();
+}
+
+void GameManager::LateUpdate()
+{
+    m_InputManager->UpdatePreviousInput();
+    m_Timer->Reset();
+}
+
+void GameManager::Update()
+{
+    EarlyUpdate();
+    // TODO: Temp stuff, remove this
+    if (m_InputManager->KeyDown(SDL_SCANCODE_ESCAPE)) {
+        m_Quit = true;
+    }
+
+    if (m_InputManager->KeyDown(SDL_SCANCODE_M)) {
+        m_AudioManager->PauseMusic();
+    }
+
+    if (m_InputManager->KeyDown(SDL_SCANCODE_N)) {
+        m_AudioManager->ResumeMusic();
+    }
+
+    if (m_InputManager->KeyPressed(SDL_SCANCODE_RETURN)) {
+        m_AudioManager->PlayMusic("game_start.mp3", 0);
+    }
+
+    if (m_InputManager->KeyReleased(SDL_SCANCODE_RETURN)) {
+        m_AudioManager->PlaySfx("kick.mp3");
+    }
+
+    if (m_InputManager->MouseButtonPressed(InputManager::MouseButton::left)) {
+        printf("Mouse button pressed\n");
+    }
+
+    if (m_InputManager->MouseButtonReleased(InputManager::MouseButton::left)) {
+        printf("Mouse button released\n");
+    }
+
+    if (m_InputManager->KeyDown(SDL_SCANCODE_W)) {
+        m_Tex->Translate(Vector::Multiply(Vector::Vector2(0.0f, -40.0f), m_Timer->DeltaTime()));
+    } else if (m_InputManager->KeyDown(SDL_SCANCODE_S)) {
+        m_Tex->Translate(Vector::Multiply(Vector::Vector2(0.0f, 40.0f), m_Timer->DeltaTime()));
+    }
+
+    LateUpdate();
+}
+
+void GameManager::Render()
+{
+    m_Tex->Update();
+    m_Text->Update();
+
+    m_Graphics->ClearBackBuffer();
+
+    m_Tex->Render();
+    m_Text->Render();
+
+    m_Graphics->Render();
+}
+
 void GameManager::Run()
 {
     m_AudioManager->PlayMusic("title_theme.mp3");
@@ -71,36 +137,8 @@ void GameManager::Run()
         }
 
         if (m_Timer->DeltaTime() >= (1.0f / frameRate)) {
-            m_InputManager->Update();
-            if (m_InputManager->KeyDown(SDL_SCANCODE_ESCAPE)) {
-                m_Quit = true;
-            }
-
-            if (m_InputManager->KeyDown(SDL_SCANCODE_M)) {
-                m_AudioManager->PauseMusic();
-            }
-
-            if (m_InputManager->KeyDown(SDL_SCANCODE_N)) {
-                m_AudioManager->ResumeMusic();
-            }
-
-            // TODO: Temp stuff, remove this
-            if (m_InputManager->KeyDown(SDL_SCANCODE_W)) {
-                m_Tex->Translate(Vector::Multiply(Vector::Vector2(0.0f, -40.0f), m_Timer->DeltaTime()));
-            } else if (m_InputManager->KeyDown(SDL_SCANCODE_S)) {
-                m_Tex->Translate(Vector::Multiply(Vector::Vector2(0.0f, 40.0f), m_Timer->DeltaTime()));
-            }
-
-            m_Tex->Update();
-            m_Text->Update();
-
-            m_Graphics->ClearBackBuffer();
-            m_Timer->Reset();
-
-            m_Tex->Render();
-            m_Text->Render();
-
-            m_Graphics->Render();
+            Update();
+            Render();
         }
     }
 }

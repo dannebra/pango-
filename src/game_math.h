@@ -5,7 +5,7 @@
 
 namespace GameMath
 {
-    inline constexpr float pi = 3.14159265;
+    inline constexpr float pi = 3.14159265f;
     inline constexpr float degreeToRadians = pi / 180.0f;
 }
 

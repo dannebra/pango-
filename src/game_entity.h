@@ -14,12 +14,13 @@ class GameEntity
             local,
             world,
         };
+        
     private:
         Vector::Vector2 m_Position{};
         Vector::Vector2 m_Scale{};
         float m_Rotation{};
         bool m_Active{};
-        GameEntity *m_Parent{};
+        GameEntity *m_Parent = nullptr;
 
     public:
         GameEntity(float x = 0.0f, float y = 0.0f);
