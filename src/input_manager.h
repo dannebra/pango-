@@ -2,6 +2,7 @@
 #define _INPUT_MANAGER_
 
 #include "game_math.h"
+#include <memory>
 #include <SDL2/SDL.h>
 #include <string>
 
@@ -24,7 +25,7 @@ class InputManager
     private:
         static InputManager *s_Instance;
         const u8 *m_KeyboardState;
-        u8 *m_PreviousKeyboardState;
+        std::unique_ptr<u8[]> m_PreviousKeyboardState;
         int m_KeyLength;
 
         u32 m_MouseState;

@@ -50,6 +50,7 @@ class AnimatedTexture : public Texture
     
     public:
         AnimatedTexture(const std::string &filename, const Attributes attributes);
+        AnimatedTexture(const std::string &filename, const std::string &fontPath, const int size, const SDL_Color color, const Attributes attributes);
         ~AnimatedTexture() = default;
 
         void SetWrapMode(WrapMode mode);

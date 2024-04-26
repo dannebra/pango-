@@ -1,5 +1,4 @@
 #include "asset_manager.h"
-#include "graphics.h"
 
 AssetManager* AssetManager::s_AssetManager{nullptr};
 
@@ -71,7 +70,7 @@ TTF_Font *AssetManager::GetFont(const std::string &filename, const int size)
         m_Fonts[key] = TTF_OpenFont(fontPath.c_str(), size);
         
         if (m_Fonts[key] == nullptr) {
-            printf("Font Loading Error: Font: %s, Error: %s\n", filename.c_str(), TTF_GetError());
+            std::printf("Font Loading Error: Font: %s, Error: %s\n", filename.c_str(), TTF_GetError());
         }
     }
     SDL_free(basePath);
@@ -100,7 +99,7 @@ Mix_Music *AssetManager::GetMusic(const std::string &filename)
         m_Music[filename] = Mix_LoadMUS(audioPath.c_str());
         
         if (m_Music[filename] == nullptr) {
-            printf("Music Loading Error: File: %s, Error: %s\n", filename.c_str(), Mix_GetError());
+            std::printf("Music Loading Error: File: %s, Error: %s\n", filename.c_str(), Mix_GetError());
         }
     }
     SDL_free(basePath);
@@ -118,7 +117,7 @@ Mix_Chunk *AssetManager::GetSfx(const std::string &filename)
         m_Sfx[filename] = Mix_LoadWAV(audioPath.c_str());
         
         if (m_Sfx[filename] == nullptr) {
-            printf("Sfx Loading Error: File: %s, Error: %s\n", filename.c_str(), Mix_GetError());
+            std::printf("Sfx Loading Error: File: %s, Error: %s\n", filename.c_str(), Mix_GetError());
         }
     }
     SDL_free(basePath);

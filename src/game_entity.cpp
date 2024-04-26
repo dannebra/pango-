@@ -12,6 +12,8 @@ GameEntity::GameEntity(float x, float y)
     m_Parent = nullptr;
 }
 
+GameEntity::GameEntity(Vector::Vector2 position) : GameEntity(position.x, position.y) {}
+
 GameEntity::~GameEntity()
 {
     m_Parent = nullptr;

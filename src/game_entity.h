@@ -24,7 +24,8 @@ class GameEntity
 
     public:
         GameEntity(float x = 0.0f, float y = 0.0f);
-        ~GameEntity();
+        GameEntity(Vector::Vector2 position);
+        virtual ~GameEntity();
 
         void SetPosition(const Vector::Vector2 pos);
         Vector::Vector2 GetPosition(Space space = Space::world);

@@ -2,6 +2,7 @@
 #define _ASSET_MANAGER_H_
 
 #include "graphics.h"
+#include <cstdio>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <unordered_map>

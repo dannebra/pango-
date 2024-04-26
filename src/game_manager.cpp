@@ -18,12 +18,7 @@ GameManager::GameManager()
 
     m_AssetManager = AssetManager::Instance();
 
-    m_Tex = new AnimatedTexture("pango_title.png", AnimatedTexture::Attributes{0, 0, 210, 82, 0, 0.0f, AnimatedTexture::AnimationDirection::horizontal});
-    m_Tex->SetPosition(Vector::Vector2{Graphics::screenWidth * 0.5f, Graphics::screenHeight * 0.3f});
-
-    m_Text = new Texture("Start", "ModernDOS8x14.ttf", 22, SDL_Color{0xff, 0xff, 0xff});
-    m_Text->SetPosition(Vector::Vector2{Graphics::screenWidth * 0.5f, Graphics::screenHeight * 0.5f});
-    m_Text->SetParent(m_Tex);
+    m_StartScreen = new StartScreen();
 }
 
 GameManager::~GameManager()
@@ -42,6 +37,9 @@ GameManager::~GameManager()
 
     m_InputManager->FreeResources();
     m_AssetManager = nullptr;
+
+    delete m_StartScreen;
+    m_StartScreen = nullptr;
 }
 
 GameManager *GameManager::Instance()
@@ -73,6 +71,7 @@ void GameManager::LateUpdate()
 void GameManager::Update()
 {
     EarlyUpdate();
+    m_StartScreen->Update();
     // TODO: Temp stuff, remove this
     if (m_InputManager->KeyDown(SDL_SCANCODE_ESCAPE)) {
         m_Quit = true;
@@ -102,24 +101,14 @@ void GameManager::Update()
         printf("Mouse button released\n");
     }
 
-    if (m_InputManager->KeyDown(SDL_SCANCODE_W)) {
-        m_Tex->Translate(Vector::Multiply(Vector::Vector2(0.0f, -40.0f), m_Timer->DeltaTime()));
-    } else if (m_InputManager->KeyDown(SDL_SCANCODE_S)) {
-        m_Tex->Translate(Vector::Multiply(Vector::Vector2(0.0f, 40.0f), m_Timer->DeltaTime()));
-    }
-
     LateUpdate();
 }
 
 void GameManager::Render()
 {
-    m_Tex->Update();
-    m_Text->Update();
-
     m_Graphics->ClearBackBuffer();
 
-    m_Tex->Render();
-    m_Text->Render();
+    m_StartScreen->Render();
 
     m_Graphics->Render();
 }

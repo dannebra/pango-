@@ -1,19 +1,19 @@
 #include "input_manager.h"
+#include <memory>
 
 InputManager *InputManager::s_Instance = nullptr;
 
 InputManager::InputManager()
 {
     m_KeyboardState = SDL_GetKeyboardState(&m_KeyLength);
-    m_PreviousKeyboardState = new u8[m_KeyLength];
+    m_PreviousKeyboardState = std::make_unique<u8[]>(m_KeyLength);
 
-    memcpy(m_PreviousKeyboardState, m_KeyboardState, m_KeyLength);
+    memcpy(m_PreviousKeyboardState.get(), m_KeyboardState, m_KeyLength);
 }
 
 InputManager::~InputManager()
 {
-  delete[] m_PreviousKeyboardState;
-  m_PreviousKeyboardState = nullptr;
+    m_PreviousKeyboardState = nullptr;
 }
 
 InputManager *InputManager::Instance()
@@ -100,6 +100,6 @@ void InputManager::Update()
 
 void InputManager::UpdatePreviousInput()
 {
-    memcpy(m_PreviousKeyboardState, m_KeyboardState, m_KeyLength);
+    memcpy(m_PreviousKeyboardState.get(), m_KeyboardState, m_KeyLength);
     m_PreviousMouseState = m_MouseState;
 }
