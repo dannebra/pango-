@@ -9,7 +9,10 @@ void StartScreen::Update()
 
 void StartScreen::Render()
 {
-    m_HighScore->Render();
+    m_CurrentScoreText->Render();
+    m_TopScoreText->Render();
+    m_TopScore->Render();
+    m_Score->Render();
     m_Logo->Render();
     m_StartGameText->Render();
     m_OptionsText->Render();
@@ -20,12 +23,24 @@ void StartScreen::Render()
 StartScreen::StartScreen()
 {
     m_TopBar = new GameEntity(Vector::Vector2(Graphics::Instance()->screenWidth * 0.5f, 20.0f));
-
-    m_HighScore = new Texture("High score", "ModernDOS8x14.ttf", 22, SDL_Color{0xff, 0xff, 0xff});
-    m_HighScore->SetParent(m_TopBar);
-    m_HighScore->SetPosition(Vector::Vector2(-Graphics::Instance()->screenWidth * 0.35f, 0));
-
     m_TopBar->SetParent(this);
+
+    m_TopScoreText = new Texture("High Score", "ModernDOS8x14.ttf", 22, SDL_Color{0xff, 0xff, 0xff});
+    m_TopScoreText->SetParent(m_TopBar);
+    m_TopScoreText->SetPosition(Vector::Vector2(-Graphics::Instance()->screenWidth * 0.20f, 0));
+
+    m_CurrentScoreText = new Texture("Score", "ModernDOS8x14.ttf", 22, SDL_Color{0xff, 0xff, 0xff});
+    m_CurrentScoreText->SetParent(m_TopBar);
+    m_CurrentScoreText->SetPosition(Vector::Vector2(-Graphics::Instance()->screenWidth * 0.45f, 0));
+
+    m_TopScore = new ScoreBoard();
+    m_TopScore->SetParent(m_TopBar);
+    m_TopScore->SetPosition(Vector::Vector2(-Graphics::Instance()->screenWidth * 0.12f, 25));
+    m_TopScore->SetScore(124214124);
+
+    m_Score = new ScoreBoard();
+    m_Score->SetParent(m_TopBar);
+    m_Score->SetPosition(Vector::Vector2(-Graphics::Instance()->screenWidth * 0.415f, 25));
 
     m_Logo = new AnimatedTexture("pango_title.png", AnimatedTexture::Attributes{0, 0, 210, 82, 0, 0.0f, AnimatedTexture::AnimationDirection::horizontal});
     m_Logo->SetPosition(Vector::Vector2{Graphics::screenWidth * 0.5f, Graphics::screenHeight * 0.3f});
@@ -67,8 +82,14 @@ StartScreen::~StartScreen()
 {
     delete m_TopBar;
     m_TopBar = nullptr;
-    delete m_HighScore;
-    m_HighScore = nullptr;
+    delete m_TopScoreText;
+    m_TopScoreText = nullptr;
+    delete m_CurrentScoreText;
+    m_CurrentScoreText = nullptr;
+    delete m_TopScore;
+    m_TopScore = nullptr;
+    delete m_Score;
+    m_Score = nullptr;
 
     delete m_Logo;
     m_Logo = nullptr;

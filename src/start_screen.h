@@ -3,6 +3,7 @@
 
 #include "animated_texture.h"
 #include "input_manager.h"
+#include "score_board.h"
 
 class StartScreen : public GameEntity
 {
@@ -21,7 +22,10 @@ class StartScreen : public GameEntity
     
     private:
         GameEntity *m_TopBar;
-        Texture *m_HighScore;
+        Texture *m_TopScoreText;
+        Texture *m_CurrentScoreText;
+        ScoreBoard *m_TopScore;
+        ScoreBoard *m_Score;
 
         AnimatedTexture *m_Logo;
 
