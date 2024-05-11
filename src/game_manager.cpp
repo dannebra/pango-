@@ -18,7 +18,7 @@ GameManager::GameManager()
 
     m_AssetManager = AssetManager::Instance();
 
-    m_StartScreen = new StartScreen();
+    m_ScreenManager = ScreenManager::Instance();
 }
 
 GameManager::~GameManager()
@@ -38,8 +38,8 @@ GameManager::~GameManager()
     m_InputManager->FreeResources();
     m_AssetManager = nullptr;
 
-    delete m_StartScreen;
-    m_StartScreen = nullptr;
+    m_ScreenManager->FreeResources();
+    m_ScreenManager = nullptr;
 }
 
 GameManager *GameManager::Instance()
@@ -71,7 +71,7 @@ void GameManager::LateUpdate()
 void GameManager::Update()
 {
     EarlyUpdate();
-    m_StartScreen->Update();
+
     // TODO: Temp stuff, remove this
     if (m_InputManager->KeyDown(SDL_SCANCODE_ESCAPE)) {
         m_Quit = true;
@@ -85,7 +85,7 @@ void GameManager::Update()
         m_AudioManager->ResumeMusic();
     }
 
-    if (m_InputManager->KeyPressed(SDL_SCANCODE_RETURN)) {
+    if (m_InputManager->KeyPressed(SDL_SCANCODE_F10)) {
         m_AudioManager->PlayMusic("game_start.mp3", 0);
     }
 
@@ -100,6 +100,7 @@ void GameManager::Update()
     if (m_InputManager->MouseButtonReleased(InputManager::MouseButton::left)) {
         printf("Mouse button released\n");
     }
+    m_ScreenManager->Update();
 
     LateUpdate();
 }
@@ -107,9 +108,7 @@ void GameManager::Update()
 void GameManager::Render()
 {
     m_Graphics->ClearBackBuffer();
-
-    m_StartScreen->Render();
-
+    m_ScreenManager->Render();
     m_Graphics->Render();
 }
 

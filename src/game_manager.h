@@ -3,7 +3,7 @@
 
 #include "asset_manager.h"
 #include "audio_manager.h"
-#include "start_screen.h"
+#include "screen_manager.h"
 
 class GameManager
 {
@@ -17,8 +17,7 @@ class GameManager
         Graphics *m_Graphics;
         InputManager *m_InputManager;
         Timer *m_Timer;
-
-        StartScreen *m_StartScreen;
+        ScreenManager *m_ScreenManager;
 
         SDL_Event m_Event{};
     public:

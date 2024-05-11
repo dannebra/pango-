@@ -78,6 +78,11 @@ void StartScreen::ChangeSelectedMode()
     }
 }
 
+StartScreen::SelectedMode StartScreen::GetSelectedMode()
+{
+    return m_SelectedMode;
+}
+
 StartScreen::~StartScreen() 
 {
     delete m_TopBar;

@@ -19,6 +19,7 @@ class StartScreen : public GameEntity
         void Update() override; 
         void Render() override;
         void ChangeSelectedMode();
+        SelectedMode GetSelectedMode();
     
     private:
         GameEntity *m_TopBar;
