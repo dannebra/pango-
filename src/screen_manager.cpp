@@ -22,6 +22,7 @@ ScreenManager::ScreenManager()
     m_StartScreen = new StartScreen();
     m_CurrentScreen = Screen::start;
     m_OptionScreen = new OptionScreen();
+    m_PlayScreen = new PlayScreen();
 
     m_Input = InputManager::Instance();
 }
@@ -30,6 +31,10 @@ ScreenManager::~ScreenManager()
 {
     delete m_StartScreen;
     m_StartScreen = nullptr;
+    delete m_PlayScreen;
+    m_PlayScreen = nullptr;
+    delete m_OptionScreen;
+    m_OptionScreen = nullptr;
 
     m_Input = nullptr;
 }
@@ -40,19 +45,25 @@ void ScreenManager::Update()
     {
         case Screen::start:
             m_StartScreen->Update();
-            if (m_Input->KeyPressed(SDL_SCANCODE_DOWN)) { // TODO: Get this from start screen
+            if ((m_StartScreen->GetSelectedMode() == StartScreen::SelectedMode::options) &&
+                (m_Input->KeyPressed(SDL_SCANCODE_RETURN))) {
                 m_CurrentScreen = Screen::options;
+            } else if (m_Input->KeyPressed(SDL_SCANCODE_RETURN)) {
+                m_CurrentScreen = Screen::play;
             }
             break;
         case Screen::options:
             m_OptionScreen->Update();
-            if (m_Input->KeyPressed(SDL_SCANCODE_RETURN)) {
+            if (m_Input->KeyPressed(SDL_SCANCODE_BACKSPACE)) {
                 m_CurrentScreen = Screen::start;
             }
             break;
         case Screen::play:
+            m_PlayScreen->Update();
+            if (m_Input->KeyPressed(SDL_SCANCODE_BACKSPACE)) {
+                m_CurrentScreen = Screen::start; // temp for testing
+            }
             break;
-            // TODO: implement play screen
     }
 }
 
@@ -60,9 +71,9 @@ void ScreenManager::Render()
 {
     switch (m_CurrentScreen)
     {
-        case Screen::start:     { m_StartScreen->Render(); break; }
+        case Screen::start:     { m_StartScreen->Render();  break; }
         case Screen::options:   { m_OptionScreen->Render(); break; }
-        case Screen::play:      { break; } // TODO: implement play screen
+        case Screen::play:      { m_PlayScreen->Render();   break; }
     }
 }
 

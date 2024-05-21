@@ -7,20 +7,20 @@
 
 class StartScreen : public GameEntity
 {
-    private:
+    public:
         enum class SelectedMode
         {
             start,
             options,
         };
-    public:
+
         StartScreen();
         virtual ~StartScreen();
         void Update() override; 
         void Render() override;
         void ChangeSelectedMode();
         SelectedMode GetSelectedMode();
-    
+
     private:
         GameEntity *m_TopBar;
         Texture *m_TopScoreText;

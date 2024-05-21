@@ -2,6 +2,7 @@
 #define _SCREEN_MANAGER_H_
 
 #include "option_screen.h"
+#include "play_screen.h"
 #include "start_screen.h"
 
 class ScreenManager
@@ -23,6 +24,7 @@ class ScreenManager
         InputManager *m_Input;
         StartScreen *m_StartScreen;
         OptionScreen *m_OptionScreen;
+        PlayScreen *m_PlayScreen;
 
         Screen m_CurrentScreen{Screen::start};
 
